@@ -11,16 +11,16 @@ if [ -z "$VERSION" ]; then
     TAG="$(git describe --tags --abbrev=0 2>/dev/null || true)"
   fi
   if [ -z "$TAG" ]; then
-    VERSION="1970.01.01.0"
+    VERSION="1970.1.1.0"
     echo "Version tag not found. Defaulting to $VERSION for local build."
   else
     VERSION="${TAG#v}"
   fi
 fi
 
-if ! [[ "$VERSION" =~ ^[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+$ ]]; then
+if ! [[ "$VERSION" =~ ^[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}\.[0-9]+$ ]]; then
   echo "Invalid version: $VERSION" >&2
-  echo "Use CalVer format YYYY.MM.DD.N (e.g. 2026.02.15.1)." >&2
+  echo "Use CalVer format YYYY.M.D.N (e.g. 2026.2.15.1)." >&2
   exit 1
 fi
 
@@ -30,12 +30,12 @@ MONTH="${REST%%.*}"
 REST="${REST#*.}"
 DAY="${REST%%.*}"
 
-if ! [[ "$MONTH" =~ ^(0[1-9]|1[0-2])$ ]]; then
+if ! [[ "$MONTH" =~ ^([1-9]|1[0-2])$ ]]; then
   echo "Invalid month in version: $MONTH" >&2
   exit 1
 fi
 
-if ! [[ "$DAY" =~ ^(0[1-9]|[12][0-9]|3[01])$ ]]; then
+if ! [[ "$DAY" =~ ^([1-9]|[12][0-9]|3[01])$ ]]; then
   echo "Invalid day in version: $DAY" >&2
   exit 1
 fi
