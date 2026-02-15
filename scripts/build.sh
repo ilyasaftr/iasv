@@ -43,26 +43,31 @@ fi
 echo "Building version $VERSION"
 
 rm -rf dist
-mkdir -p dist
+mkdir -p dist/build/mv3 dist/build/mv2
 
-rm -rf extension/mv3/shared extension/mv2/shared
-rm -rf extension/mv3/_locales extension/mv2/_locales
-cp -R extension/shared extension/mv3/
-cp -R extension/shared extension/mv2/
-cp -R extension/_locales extension/mv3/
-cp -R extension/_locales extension/mv2/
+# Assemble MV3 build in dist
+cp -R extension/mv3/* dist/build/mv3/
+rm -rf dist/build/mv3/shared dist/build/mv3/_locales
+cp -R extension/shared dist/build/mv3/
+cp -R extension/_locales dist/build/mv3/
+
+# Assemble MV2 build in dist
+cp -R extension/mv2/* dist/build/mv2/
+rm -rf dist/build/mv2/shared dist/build/mv2/_locales
+cp -R extension/shared dist/build/mv2/
+cp -R extension/_locales dist/build/mv2/
 
 perl -0pi -e 's/"version"\s*:\s*"[^"]*"/"version": "'"$VERSION"'"/g' \
-  extension/mv3/manifest.json \
-  extension/mv2/manifest.json
+  dist/build/mv3/manifest.json \
+  dist/build/mv2/manifest.json
 
 (
-  cd extension/mv3
+  cd dist/build/mv3
   zip -r "$ROOT_DIR/dist/ig-story-anonymous-mv3.zip" .
 )
 
 (
-  cd extension/mv2
+  cd dist/build/mv2
   zip -r "$ROOT_DIR/dist/ig-story-anonymous-mv2.zip" .
 )
 
