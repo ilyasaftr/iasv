@@ -1,0 +1,165 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  --bg: #f7f7f8;
+  --card: #ffffff;
+  --text: #111;
+  --muted: #4b4f59;
+  --accent: #1f6feb;
+  --accent-soft: #dbe8ff;
+  --border: #c7cbd4;
+  --power-off: #8f95a3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #23262b;
+    --card: #2b2f36;
+    --text: #f2f4f7;
+    --muted: #c3c8d2;
+    --accent: #7aa2ff;
+    --accent-soft: #38425a;
+    --border: #3e4450;
+    --power-off: #8a90a0;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.title-bar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 13px;
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.wrap {
+  min-width: 260px;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.power-toggle {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.power-toggle:active {
+  transform: scale(0.98);
+}
+
+.power-toggle.is-on {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.power-icon {
+  width: 36px;
+  height: 36px;
+  position: relative;
+  border: 4px solid var(--power-off);
+  border-top-color: transparent;
+  border-radius: 50%;
+  transition: border-color 0.2s ease;
+}
+
+.power-icon::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 6px;
+  height: 18px;
+  background: var(--power-off);
+  border-radius: 999px;
+  transform: translateX(-50%);
+  transition: background 0.2s ease;
+}
+
+.power-toggle.is-on .power-icon {
+  border-color: var(--accent);
+  border-top-color: transparent;
+}
+
+.power-toggle.is-on .power-icon::after {
+  background: var(--accent);
+}
+
+.power-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.power-toggle.is-on .power-label {
+  color: var(--accent);
+}
+
+.stats {
+  width: 100%;
+  background: var(--card);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 4px 0 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.stat-copy {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}

@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="insta_gradient" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#833ab4"/>
+      <stop offset="50%" stop-color="#fd1d1d"/>
+      <stop offset="100%" stop-color="#fcb045"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="240" stroke="url(#insta_gradient)" stroke-width="32" fill="#ffffff"/>
+
+  <g transform="translate(256 230) scale(0.8)">
+    <path d="M0 -100 C-110 -100 -200 -20 -200 0 C-200 20 -110 100 0 100 C110 100 200 20 200 0 C200 -20 110 -100 0 -100 Z" fill="#262626"/>
+    <circle cx="0" cy="0" r="60" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="30" fill="#262626"/>
+
+    <path d="M-160 -40 C-160 -100 -100 -160 -0 -160 C100 -160 160 -100 160 -40 C160 10 120 60 0 60 C-120 60 -160 10 -160 -40 Z" fill="#262626" transform="translate(0 -60)"/>
+  </g>
+
+  <g text-anchor="middle" font-family="Arial, sans-serif">
+    <text x="256" y="420" font-size="80" font-weight="bold" fill="#262626">IASV</text>
+  </g>
+</svg>

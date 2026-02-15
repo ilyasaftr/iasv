@@ -1,0 +1,7 @@
+dist/
+extension/mv2/shared/
+extension/mv3/shared/
+extension/mv2/_locales/
+extension/mv3/_locales/
+DEV_NOTES.md
+.DS_Store

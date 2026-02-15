@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="ext_name">Instagram Anonymous Story Viewer</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="title-bar">
+      <h1 data-i18n="ext_name">Instagram Anonymous Story Viewer</h1>
+    </header>
+    <main class="wrap">
+      <button class="power-toggle" id="powerToggle" aria-pressed="false">
+        <span class="power-icon" aria-hidden="true"></span>
+        <span class="power-label" data-i18n="power_off" aria-hidden="true">OFF</span>
+      </button>
+
+      <section class="stats" aria-live="polite">
+        <div class="stat">
+          <span class="stat-label" data-i18n="blocked_so_far">Blocked so far</span>
+          <strong id="blockedCount" class="stat-value">0</strong>
+        </div>
+        <p class="stat-copy" data-i18n="blocked_copy">
+          We stopped those story seen pings to keep your views private.
+        </p>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

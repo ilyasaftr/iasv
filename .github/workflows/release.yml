@@ -1,0 +1,107 @@
+name: build-and-publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+      CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+      CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+      CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+      EDGE_CLIENT_ID: ${{ secrets.EDGE_CLIENT_ID }}
+      EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+      EDGE_PRODUCT_ID: ${{ secrets.EDGE_PRODUCT_ID }}
+      FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+      FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+      FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install publish tools
+        run: npm install -g chrome-webstore-upload-cli web-ext
+
+      - name: Build packages
+        run: ./scripts/build.sh
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-packages
+          path: dist/*.zip
+
+      - name: Publish to Chrome Web Store
+        id: publish_chrome
+        if: env.CHROME_CLIENT_ID != '' && env.CHROME_CLIENT_SECRET != '' && env.CHROME_REFRESH_TOKEN != '' && env.CHROME_EXTENSION_ID != ''
+        env:
+          CLIENT_ID: ${{ env.CHROME_CLIENT_ID }}
+          CLIENT_SECRET: ${{ env.CHROME_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ env.CHROME_REFRESH_TOKEN }}
+          EXTENSION_ID: ${{ env.CHROME_EXTENSION_ID }}
+        run: |
+          chrome-webstore-upload \
+            --source dist/ig-story-anonymous-mv3.zip \
+            --extension-id "$EXTENSION_ID"
+
+      - name: Publish to Edge Add-ons
+        id: publish_edge
+        if: env.EDGE_CLIENT_ID != '' && env.EDGE_API_KEY != '' && env.EDGE_PRODUCT_ID != ''
+        env:
+          EDGE_CLIENT_ID: ${{ env.EDGE_CLIENT_ID }}
+          EDGE_API_KEY: ${{ env.EDGE_API_KEY }}
+          EDGE_PRODUCT_ID: ${{ env.EDGE_PRODUCT_ID }}
+        run: ./scripts/edge-publish.sh dist/ig-story-anonymous-mv3.zip
+
+      - name: Publish to Firefox AMO
+        id: publish_firefox
+        if: env.FIREFOX_JWT_ISSUER != '' && env.FIREFOX_JWT_SECRET != '' && env.FIREFOX_EXTENSION_ID != ''
+        env:
+          FIREFOX_JWT_ISSUER: ${{ env.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ env.FIREFOX_JWT_SECRET }}
+          FIREFOX_EXTENSION_ID: ${{ env.FIREFOX_EXTENSION_ID }}
+        run: |
+          web-ext sign \
+            --api-key "$FIREFOX_JWT_ISSUER" \
+            --api-secret "$FIREFOX_JWT_SECRET" \
+            --channel listed \
+            --source-dir extension/mv2 \
+            --artifacts-dir dist \
+            --id "$FIREFOX_EXTENSION_ID"
+
+      - name: Publish summary
+        if: always()
+        env:
+          CHROME_OUTCOME: ${{ steps.publish_chrome.outcome }}
+          EDGE_OUTCOME: ${{ steps.publish_edge.outcome }}
+          FIREFOX_OUTCOME: ${{ steps.publish_firefox.outcome }}
+        run: |
+          echo "## Publish Summary" >> $GITHUB_STEP_SUMMARY
+
+          chrome_status="${CHROME_OUTCOME:-skipped}"
+          edge_status="${EDGE_OUTCOME:-skipped}"
+          firefox_status="${FIREFOX_OUTCOME:-skipped}"
+
+          echo "- Chrome: ${chrome_status}" >> $GITHUB_STEP_SUMMARY
+          echo "- Edge: ${edge_status}" >> $GITHUB_STEP_SUMMARY
+          echo "- Firefox: ${firefox_status}" >> $GITHUB_STEP_SUMMARY
+
+          if [ "$chrome_status" = "skipped" ]; then
+            echo "  - reason: missing secrets" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "$edge_status" = "skipped" ]; then
+            echo "  - reason: missing secrets" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ "$firefox_status" = "skipped" ]; then
+            echo "  - reason: missing secrets" >> $GITHUB_STEP_SUMMARY
+          fi

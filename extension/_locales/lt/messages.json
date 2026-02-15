@@ -1,0 +1,20 @@
+{
+  "ext_name": {
+    "message": "Instagram Anonymous Story Viewer (IASV)"
+  },
+  "ext_description": {
+    "message": "Keep your Instagram story views private by blocking seen updates."
+  },
+  "power_on": {
+    "message": "ĮJUNGTA"
+  },
+  "power_off": {
+    "message": "IŠJUNGTA"
+  },
+  "blocked_so_far": {
+    "message": "Užblokuota"
+  },
+  "blocked_copy": {
+    "message": "Sustabdėme 'peržiūrėta' signalus, kad galėtumėte žiūrėti istorijas slapta."
+  }
+}

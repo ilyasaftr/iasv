@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_ext_name__",
+  "version": "1970.01.01.0",
+  "description": "__MSG_ext_description__",
+  "default_locale": "en",
+  "icons": {
+    "16": "shared/icons/icon-16.png",
+    "32": "shared/icons/icon-32.png",
+    "48": "shared/icons/icon-48.png",
+    "128": "shared/icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "__MSG_ext_name__",
+    "default_popup": "shared/popup/popup.html",
+    "default_icon": {
+      "16": "shared/icons/icon-16.png",
+      "32": "shared/icons/icon-32.png",
+      "48": "shared/icons/icon-48.png",
+      "128": "shared/icons/icon-128.png"
+    }
+  },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["*://*.instagram.com/*"],
+  "background": {
+    "service_worker": "shared/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.instagram.com/*"],
+      "js": ["shared/content-bootstrap.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["shared/inject.js"],
+      "matches": ["*://*.instagram.com/*"]
+    }
+  ]
+}
