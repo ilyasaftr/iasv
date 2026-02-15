@@ -32,5 +32,14 @@
       "run_at": "document_start"
     }
   ],
-  "web_accessible_resources": ["shared/inject.js"]
+  "web_accessible_resources": ["shared/inject.js"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "iasv@ilyasa.me",
+      "data_collection_permissions": {
+        "required": ["none"],
+        "optional": []
+      }
+    }
+  }
 }
