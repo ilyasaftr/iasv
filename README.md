@@ -1,5 +1,7 @@
 # Instagram Anonymous Story Viewer (IASV)
 
+![IASV Logo](extension/shared/icons/icon-128.png)
+
 Anonymous story viewing for Instagram.
 
 ## What It Does
