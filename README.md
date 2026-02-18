@@ -10,7 +10,7 @@ Instagram Anonymous Story Viewer (IASV)
 | :-------: | ---------------- | ------ |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg" height="48" alt="Get for Microsoft Edge"> | <a href="https://microsoftedge.microsoft.com/addons/detail/instagram-anonymous-story/phdekcpdeebglcccikanncjlfifbdomn">Edge Add-ons</a> | |
 | <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg" height="48" alt="Get for Chrome"> | Chrome Web Store | Not available (requires paid developer account) |
-| <img src="https://cdn.simpleicons.org/firefoxbrowser" height="48" alt="Get for Firefox"> | Firefox Add-ons | Coming soon |
+| <img src="https://cdn.simpleicons.org/firefoxbrowser" height="48" alt="Get for Firefox"> | <a href="https://addons.mozilla.org/en-US/firefox/addon/iasv-ig-anonymous-story-viewer/">Firefox Add-ons</a> | |
 | <img src="https://cdn.simpleicons.org/opera" height="48" alt="Get for Opera"> | Opera Add-ons | Coming soon |
 ***
 
