@@ -9,7 +9,10 @@
 
   const config = {
     debug: false,
-    blockedPatterns: [/viewSeenAt/i, /story_view/i],
+    urlPatterns:
+      /media\/seen|api\/v1\/stories\/seen|stories_record_view|StoriesViewEvent/i,
+    bodyPatterns:
+      /view_seen_at|viewSeenAt|mark_seen|stories_seen|StoriesViewEventRequestMutation|story_reel_view/i,
   };
 
   const log = (...args) => {
@@ -29,10 +32,22 @@
   const isPlainObject = (value) =>
     Object.prototype.toString.call(value) === "[object Object]";
 
-  const isLikelyTargetUrl = (url) => {
+  const isGraphQLUrl = (url) => {
     if (!url || typeof url !== "string") return false;
     return /\/graphql\//i.test(url) || /graphql\/query/i.test(url);
   };
+
+  const shouldBlockUrl = (url) => {
+    if (!url || typeof url !== "string") return false;
+    try {
+      return config.urlPatterns.test(url);
+    } catch (e) {
+      log("Error checking request URL:", e);
+      return false;
+    }
+  };
+
+  const shouldInspectUrl = (url) => isGraphQLUrl(url) || shouldBlockUrl(url);
 
   const isAllowedContentType = (contentType) => {
     if (!contentType || typeof contentType !== "string") return true;
@@ -91,12 +106,12 @@
     return "";
   };
 
-  const shouldBlockString = (data) => {
-    if (!data) return false;
+  const shouldBlockBody = (bodyStr) => {
+    if (!bodyStr) return false;
     try {
-      return config.blockedPatterns.some((pattern) => pattern.test(data));
+      return config.bodyPatterns.test(bodyStr);
     } catch (e) {
-      log("Error checking request data:", e);
+      log("Error checking request body:", e);
       return false;
     }
   };
@@ -129,11 +144,11 @@
   XMLHttpRequest.prototype.send = function (...args) {
     try {
       const url = this._igav_url || this.responseURL || "";
-      if (isLikelyTargetUrl(url)) {
+      if (shouldInspectUrl(url)) {
         if (isAllowedContentType(this._igav_content_type)) {
           const bodyStr = bodyToString(args[0]);
-          if (shouldBlockString(bodyStr) || shouldBlockString(url)) {
-            log("Blocked XMLHttpRequest with viewSeenAt data");
+          if (shouldBlockUrl(url) || shouldBlockBody(bodyStr)) {
+            log("Blocked XMLHttpRequest story seen tracking request");
             notifyBlocked();
             return;
           }
@@ -157,7 +172,7 @@
           : resource && resource.url
             ? resource.url
             : "";
-      if (!isLikelyTargetUrl(url)) {
+      if (!shouldInspectUrl(url)) {
         return await originalFetch.apply(this, args);
       }
 
@@ -167,8 +182,8 @@
       }
 
       const bodyStr = bodyToString(body);
-      if (shouldBlockString(bodyStr) || shouldBlockString(url)) {
-        log("Blocked Fetch request with viewSeenAt data");
+      if (shouldBlockUrl(url) || shouldBlockBody(bodyStr)) {
+        log("Blocked Fetch story seen tracking request");
         notifyBlocked();
         return new Promise(() => {});
       }
