@@ -75,7 +75,7 @@ jobs:
             --api-key "$FIREFOX_JWT_ISSUER" \
             --api-secret "$FIREFOX_JWT_SECRET" \
             --channel listed \
-            --source-dir extension/mv2 \
+            --source-dir dist/build/mv2 \
             --artifacts-dir dist
 
       - name: Publish summary
