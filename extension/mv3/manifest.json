@@ -21,13 +21,21 @@
     }
   },
   "permissions": ["storage", "tabs"],
-  "host_permissions": ["*://*.instagram.com/*"],
+  "host_permissions": [
+    "*://*.instagram.com/*",
+    "*://*.facebook.com/*",
+    "*://web.whatsapp.com/*"
+  ],
   "background": {
     "service_worker": "shared/background.js"
   },
   "content_scripts": [
     {
-      "matches": ["*://*.instagram.com/*"],
+      "matches": [
+        "*://*.instagram.com/*",
+        "*://*.facebook.com/*",
+        "*://web.whatsapp.com/*"
+      ],
       "js": ["shared/content-bootstrap.js"],
       "run_at": "document_start"
     }
@@ -35,7 +43,11 @@
   "web_accessible_resources": [
     {
       "resources": ["shared/inject.js"],
-      "matches": ["*://*.instagram.com/*"]
+      "matches": [
+        "*://*.instagram.com/*",
+        "*://*.facebook.com/*",
+        "*://web.whatsapp.com/*"
+      ]
     }
   ]
 }

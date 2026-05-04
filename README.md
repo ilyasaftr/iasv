@@ -19,7 +19,7 @@ Instagram Anonymous Story Viewer (IASV)
 - Works on Chrome, Edge, Opera, and Firefox.
 
 ## Privacy
-IASV does not collect, store, or transmit personal data. It only blocks specific network requests on `instagram.com`.
+IASV does not collect, store, or transmit personal data. It only blocks selected story/read-receipt requests on `instagram.com`, `facebook.com`, and `web.whatsapp.com`.
 
 ## License
 MIT

@@ -20,14 +20,24 @@
       "128": "shared/icons/icon-128.png"
     }
   },
-  "permissions": ["storage", "tabs", "*://*.instagram.com/*"],
+  "permissions": [
+    "storage",
+    "tabs",
+    "*://*.instagram.com/*",
+    "*://*.facebook.com/*",
+    "*://web.whatsapp.com/*"
+  ],
   "background": {
     "scripts": ["shared/background.js"],
     "persistent": false
   },
   "content_scripts": [
     {
-      "matches": ["*://*.instagram.com/*"],
+      "matches": [
+        "*://*.instagram.com/*",
+        "*://*.facebook.com/*",
+        "*://web.whatsapp.com/*"
+      ],
       "js": ["shared/content-bootstrap.js"],
       "run_at": "document_start"
     }

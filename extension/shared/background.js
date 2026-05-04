@@ -2,28 +2,34 @@
   "use strict";
 
   const api = typeof browser !== "undefined" ? browser : chrome;
-  const IG_PATTERN = "*://*.instagram.com/*";
+  const SUPPORTED_PATTERNS = [
+    "*://*.instagram.com/*",
+    "*://*.facebook.com/*",
+    "*://web.whatsapp.com/*",
+  ];
 
-  const reloadInstagramTabs = () => {
-    try {
-      api.tabs.query({ url: IG_PATTERN }, (tabs) => {
-        if (api.runtime && api.runtime.lastError) {
-          return;
-        }
-        (tabs || []).forEach((tab) => {
-          if (tab && typeof tab.id === "number") {
-            api.tabs.reload(tab.id);
+  const reloadSupportedTabs = () => {
+    SUPPORTED_PATTERNS.forEach((pattern) => {
+      try {
+        api.tabs.query({ url: pattern }, (tabs) => {
+          if (api.runtime && api.runtime.lastError) {
+            return;
           }
+          (tabs || []).forEach((tab) => {
+            if (tab && typeof tab.id === "number") {
+              api.tabs.reload(tab.id);
+            }
+          });
         });
-      });
-    } catch (_e) {
-      // Ignore tab API errors.
-    }
+      } catch (_e) {
+        // Ignore tab API errors.
+      }
+    });
   };
 
   const onMessage = (message, _sender, sendResponse) => {
     if (message && message.type === "igav_reload_tabs") {
-      reloadInstagramTabs();
+      reloadSupportedTabs();
       sendResponse({ ok: true });
       return true;
     }
