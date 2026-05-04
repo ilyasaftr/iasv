@@ -76,8 +76,7 @@ jobs:
             --api-secret "$FIREFOX_JWT_SECRET" \
             --channel listed \
             --source-dir extension/mv2 \
-            --artifacts-dir dist \
-            --id "$FIREFOX_EXTENSION_ID"
+            --artifacts-dir dist
 
       - name: Publish summary
         if: always()
