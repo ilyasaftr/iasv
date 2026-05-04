@@ -76,7 +76,8 @@ jobs:
             --api-secret "$FIREFOX_JWT_SECRET" \
             --channel listed \
             --source-dir dist/build/mv2 \
-            --artifacts-dir dist
+            --artifacts-dir dist \
+            --approval-timeout 0
 
       - name: Publish summary
         if: always()
