@@ -65,7 +65,7 @@ jobs:
 
       - name: Publish to Firefox AMO
         id: publish_firefox
-        if: env.FIREFOX_JWT_ISSUER != '' && env.FIREFOX_JWT_SECRET != '' && env.FIREFOX_EXTENSION_ID != ''
+        if: ${{ !cancelled() && env.FIREFOX_JWT_ISSUER != '' && env.FIREFOX_JWT_SECRET != '' && env.FIREFOX_EXTENSION_ID != '' }}
         env:
           FIREFOX_JWT_ISSUER: ${{ env.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ env.FIREFOX_JWT_SECRET }}
